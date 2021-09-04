@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+nav {
+    padding-top: 30px;
+    width: 300px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 
+        0 3px 1px -2px rgb(0 0 0 / 12%), 
+        0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+nav form {
+    margin: 0px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+nav form button {
+    width: 50%;
+}
+
+.recent {
+    margin: 40px 15px;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+main {
+    padding-top: 30px;
+    margin: 0px auto;
+}
+
+.title {
+    font-size: 3em;
+    text-align: center;
+}
