@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: row-reverse;
+    font-family: Verdana, Tahoma, sans-serif;
 }
 
 nav {
@@ -17,8 +18,32 @@ nav form {
     flex-direction: column;
 }
 
+nav form input {
+    border-bottom: 2px solid rgb(221, 68, 17);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 3px 0;
+}
+
+nav form input:focus {
+    outline: none;
+}
+
 nav form button {
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 10px;
     width: 50%;
+    border: none;
+    background-color: rgb(221, 68, 17);
+    color: #EEE;
+    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+    cursor: pointer;
+}
+
+nav form button:active {
+    box-shadow: inset 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
 }
 
 .recent {
