@@ -13,14 +13,14 @@
         <header>
             <h1 class="title">Weatherboard</h1>
         </header>
-        <section class="curWeather">
+        <section class="curWeather hidden">
             <div class="hero">
                 <div class="left">
-                    <h2>Columbus</h2>
-                    <h4>Lat: -80, Lon: 39</h4>
+                    <h2 id="city"></h2>
+                    <h4>Lat: <span id="lat"></span>, Lon: <span id="lon"></span></h4>
                 </div>
                 <div class="right">
-                    <img src="http://openweathermap.org/img/wn/10d@2x.png">
+                    <img id="curIcon">
                 </div>
             </div>
             <ul>
@@ -30,7 +30,7 @@
                 <li>UV Index: <span id="curUV"></span></li>
             </ul>
         </section>
-        <section class="forecast">
+        <section class="forecast hidden">
             <div class="dayCard" id="day1">
 
             </div>
