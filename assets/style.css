@@ -8,7 +8,7 @@ body {
 nav {
     padding-top: 30px;
     width: 300px;
-    background-color: #EFEFEF;
+    background-color: rgb(196, 217, 245);
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 
         0 3px 1px -2px rgb(0 0 0 / 12%), 
         0 1px 5px 0 rgb(0 0 0 / 20%);
@@ -22,7 +22,7 @@ nav form {
 
 .searchField {
     border-bottom: 2px solid rgb(221, 68, 17);
-    background-color: #EEE;
+    background-color: rgb(196, 217, 245);
     border-top: none;
     border-left: none;
     border-right: none;
@@ -71,9 +71,10 @@ h3 {
 }
 
 .curWeather {
-    margin: 20px 0;
+    margin: 40px 0;
     padding-left: 15px;
     padding-right: 15px;
+    background-color: rgb(196, 217, 245);
     box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
 }
 
@@ -97,4 +98,25 @@ h3 {
 
 .curWeather ul li {
     line-height: 2em;
+}
+
+.forecast {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap:10px;
+}
+
+.dayCard {
+    padding: 10px;
+    background-color: rgb(196, 217, 245);
+    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+}
+
+.dayCard h4 {
+    text-align: center;
+}
+
+.dayCard li {
+    line-height: 1.5em;
 }

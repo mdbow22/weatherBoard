@@ -15,15 +15,27 @@ let curFeels = document.getElementById('curFeels');
 let curWind = document.getElementById('curWind');
 let curHum = document.getElementById('curHum');
 let curUV = document.getElementById('curUV');
+let cards = document.querySelectorAll('.dayCard');
+
+//Forecast Selectors
+let forecast = document.querySelector('.forecast');
+let fDate = document.querySelectorAll('.fDate');
+let fImg = document.querySelectorAll('.fImg');
+let fLow = document.querySelectorAll('.fLow');
+let fHigh = document.querySelectorAll('.fHigh');
+let fWind = document.querySelectorAll('.fWind');
+let fHum = document.querySelectorAll('.fHum');
 
 //Global Variables
 
 let metaRequest;
 let long;
 let lat;
+let recents = [];
 
 let dispCurrentWeather = function(curData) {
     curIcon.setAttribute('src','http://openweathermap.org/img/wn/' + curData.weather[0].icon + '@2x.png');
+    curIcon.setAttribute('alt', curData.weather[0].description);
     curTemp.textContent = curData.temp;
     curFeels.textContent = curData.feels_like;
     curWind.textContent = curData.wind_speed;
@@ -32,7 +44,30 @@ let dispCurrentWeather = function(curData) {
 };
 
 let disForecast = function(forecast) {
-    console.log(forecast);
+    for (i = 0; i < cards.length; i++) {
+        //unhide boxes
+        cards[i].classList.remove('hidden');
+
+        //Display the date
+        let date = new Date(forecast[i + 1].dt * 1000);
+        fDate[i].textContent = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+
+        //Display icon of weather
+        fImg[i].setAttribute('src','http://openweathermap.org/img/wn/' + forecast[i+1].weather[0].icon + '@2x.png');
+        fImg[i].setAttribute('alt', forecast[i+1].weather[0].description);
+
+        //Display daily low
+        fLow[i].textContent = forecast[i+1].temp.min;
+        
+        //Display daily high
+        fHigh[i].textContent = forecast[i+1].temp.max;
+
+        //Display daily wind speed
+        fWind[i].textContent = forecast[i+1].wind_speed;
+
+        //Display daily humidity
+        fHum[i].textContent = forecast[i+1].humidity;
+    }
 }
 
 let getWeather = function(lat,long) {
@@ -53,7 +88,11 @@ let getMetaData = function(request) {
     .then(function(response) {
         //determine if request worked
         if (response.status === 200) {
-            //if yes, convert to JSON
+            //if yes, convert to object and save search into recents
+            if(!recents.includes(searchTerm.value)) {
+                recents.push(searchTerm.value);
+                localStorage.setItem('searches',recents);
+            }
             return response.json();
         } else {
             //if no, tell user that their search criteria wasn't found
