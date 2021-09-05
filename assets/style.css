@@ -2,11 +2,13 @@ body {
     display: flex;
     flex-direction: row-reverse;
     font-family: Verdana, Tahoma, sans-serif;
+    justify-content: center;
 }
 
 nav {
     padding-top: 30px;
     width: 300px;
+    background-color: #EFEFEF;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 
         0 3px 1px -2px rgb(0 0 0 / 12%), 
         0 1px 5px 0 rgb(0 0 0 / 20%);
@@ -18,19 +20,20 @@ nav form {
     flex-direction: column;
 }
 
-nav form input {
+.searchField {
     border-bottom: 2px solid rgb(221, 68, 17);
+    background-color: #EEE;
     border-top: none;
     border-left: none;
     border-right: none;
     padding: 3px 0;
 }
 
-nav form input:focus {
+.searchField:focus {
     outline: none;
 }
 
-nav form button {
+.submitBtn {
     font-weight: bold;
     margin: 10px 0;
     padding: 10px;
@@ -42,7 +45,7 @@ nav form button {
     cursor: pointer;
 }
 
-nav form button:active {
+.submitBtn:active {
     box-shadow: inset 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
 }
 
@@ -54,12 +57,40 @@ h3 {
     font-size: 1.5em;
 }
 
-main {
+.container {
     padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin: 0px auto;
+    flex-basis: 66%;
 }
 
 .title {
     font-size: 3em;
     text-align: center;
+}
+
+.curWeather {
+    margin: 20px 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+}
+
+.hero h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.curWeather ul {
+    padding-bottom: 10px;
+}
+
+.curWeather ul li {
+    line-height: 2em;
 }

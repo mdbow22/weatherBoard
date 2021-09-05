@@ -13,33 +13,45 @@
         <header>
             <h1 class="title">Weatherboard</h1>
         </header>
-        <section>
+        <section class="curWeather">
             <div class="hero">
-
+                <div class="left">
+                    <h2>Columbus</h2>
+                    <h4>Lat: -80, Lon: 39</h4>
+                </div>
+                <div class="right">
+                    <img src="http://openweathermap.org/img/wn/10d@2x.png">
+                </div>
             </div>
+            <ul>
+                <li>Temp: <span id="curTemp"></span>&#176;F (feels like <span id="curFeels"></span>&#176;F)</li>
+                <li>Wind Spd: <span id="curWind"></span>mph</li>
+                <li>Humidity: <span id="curHum"></span>%</li>
+                <li>UV Index: <span id="curUV"></span></li>
+            </ul>
         </section>
         <section class="forecast">
-            <div class="card">
+            <div class="dayCard" id="day1">
 
             </div>
-            <div class="card">
+            <div class="dayCard" id="day2">
+
+            </div>
+            <div class="dayCard" id="day3">
                 
             </div>
-            <div class="card">
+            <div class="dayCard" id="day4">
                 
             </div>
-            <div class="card">
-                
-            </div>
-            <div class="card">
+            <div class="dayCard" id="day5">
                 
             </div>
         </section>
     </main>
     <nav id="sideNav">
         <form>
-            <input type="text" placeholder="City">
-            <button type="submit">Search</button>
+            <input class="searchField" type="text" placeholder="City or ZIP">
+            <button class="submitBtn" type="submit">Search</button>
         </form>
         <div class="recent">
             <h3>Recent Searches</h3>
