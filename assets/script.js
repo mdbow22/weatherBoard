@@ -92,12 +92,7 @@ let getMetaData = function(request) {
     .then(function(response) {
         //determine if request worked
         if (response.status === 200) {
-            //if yes, convert to object and save search into recents
-            if(!recents.includes(searchTerm.value) || !recents.includes(recentChosen)) {
-                recents.push(searchTerm.value);
-                localStorage.setItem('searches',JSON.stringify(recents));
-                displayRecents(searchTerm.value);
-            }
+            //if yes, convert to object
             return response.json();
         } else {
             //if no, tell user that their search criteria wasn't found
@@ -181,6 +176,13 @@ submitBtn.addEventListener('click',function(event) {
         metaRequest = 'https://api.openweathermap.org/data/2.5/weather?q=' + searchTerm.value + '&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
     } else {
         metaRequest = 'https://api.openweathermap.org/data/2.5/weather?zip=' + searchTerm.value + '&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
+    }
+
+    //Save search into localStorage
+    if(!recents.includes(searchTerm.value)) {
+        recents.push(searchTerm.value);
+        localStorage.setItem('searches',JSON.stringify(recents));
+        displayRecents(searchTerm.value);
     }
 
     getMetaData(metaRequest);
