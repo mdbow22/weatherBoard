@@ -57,6 +57,23 @@ h3 {
     font-size: 1.5em;
 }
 
+.searchHistory li {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background-color: rgb(221, 68, 17);
+    color: #EEE;
+    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+    cursor: pointer;
+}
+
+.searchHistory li:active {
+    box-shadow: inset 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+}
+
 .container {
     padding-top: 30px;
     padding-left: 20px;

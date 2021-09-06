@@ -3,15 +3,14 @@
 //Form Selectors
 let searchTerm = document.querySelector('.searchField');
 let submitBtn = document.querySelector('.submitBtn');
+let searchHistory = document.querySelector('.searchHistory');
 
 //Current Weather Selectors
 let curWeather = document.querySelector('.curWeather');
 let city = document.getElementById('city');
-let latitude = document.getElementById('lat');
-let longitude = document.getElementById('lon');
+let latLong = document.getElementById('coord');
 let curIcon = document.getElementById('curIcon');
 let curTemp = document.getElementById('curTemp');
-let curFeels = document.getElementById('curFeels');
 let curWind = document.getElementById('curWind');
 let curHum = document.getElementById('curHum');
 let curUV = document.getElementById('curUV');
@@ -32,15 +31,20 @@ let metaRequest;
 let long;
 let lat;
 let recents = [];
+let recentChosen;
+
+
 
 let dispCurrentWeather = function(curData) {
+    //unhide div with curWeather
+    curWeather.classList.remove('hidden');
+
     curIcon.setAttribute('src','http://openweathermap.org/img/wn/' + curData.weather[0].icon + '@2x.png');
     curIcon.setAttribute('alt', curData.weather[0].description);
-    curTemp.textContent = curData.temp;
-    curFeels.textContent = curData.feels_like;
-    curWind.textContent = curData.wind_speed;
-    curHum.textContent = curData.humidity;
-    curUV.textContent = curData.uvi;
+    curTemp.innerHTML = 'Temp: ' +  curData.temp + '&#176;F (Feels like ' + curData.feels_like + '&#176;F)';
+    curWind.textContent = 'Wind: ' + curData.wind_speed + 'mph';
+    curHum.textContent = 'Humidity: ' + curData.humidity + '%';
+    curUV.innerHTML = 'UV Index: <span id="uvIndex">' + curData.uvi + '</span>';
 };
 
 let disForecast = function(forecast) {
@@ -68,7 +72,7 @@ let disForecast = function(forecast) {
         //Display daily humidity
         fHum[i].textContent = forecast[i+1].humidity;
     }
-}
+};
 
 let getWeather = function(lat,long) {
     let dataRequest = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + long + '&exclude=minutely,hourly&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
@@ -89,14 +93,16 @@ let getMetaData = function(request) {
         //determine if request worked
         if (response.status === 200) {
             //if yes, convert to object and save search into recents
-            if(!recents.includes(searchTerm.value)) {
+            if(!recents.includes(searchTerm.value) || !recents.includes(recentChosen)) {
                 recents.push(searchTerm.value);
-                localStorage.setItem('searches',recents);
+                localStorage.setItem('searches',JSON.stringify(recents));
+                displayRecents(searchTerm.value);
             }
             return response.json();
         } else {
             //if no, tell user that their search criteria wasn't found
-            curWeather.innerHTML = '<h3>City or ZIP code not Found</h3>';
+            alert('City or ZIP Code not found');
+            return;
         }
     })
     .then(function(data) {
@@ -104,21 +110,71 @@ let getMetaData = function(request) {
         long = Math.round(data.coord.lon * 100) / 100;
         lat = Math.round(data.coord.lat * 100) / 100;
         city.textContent = data.name;
-        latitude.textContent = lat
-        longitude.textContent = long
+        latLong.textContent = 'Lat: ' + lat + ', Lon: ' + long;
 
         //send to next fetch request to pull in weather info
         getWeather(lat,long);
     });
 };
 
+//Display weather for user's current location if they allow it
+let disLocalWeather = function() {
+    let options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
+
+    let success = function(pos) {
+        let coords = pos.coords;
+        getWeather(coords.latitude, coords.longitude);
+    }
+
+    let error = function(err) {
+        console.log(err.message);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+};
+
+let displayRecents = function(term) {
+    window.onload = function() {
+        for (let i = 0; i < recents.length; i++) {
+            let pastSearch = document.createElement('li');
+            pastSearch.textContent = recents[i];
+            searchHistory.appendChild(pastSearch);
+        }
+    };
+
+    if(term != null) {
+        let lastSearch = document.createElement('li');
+        lastSearch.textContent = term;
+        searchHistory.appendChild(lastSearch);
+    }
+};
+
+let retrieveRecents = function go() {
+    let storedRecents = localStorage.getItem('searches');
+    
+    if(storedRecents == null) {
+        return;
+    } else {
+        recents = JSON.parse(storedRecents);
+        displayRecents();
+    }
+};
+
+let init = function() {
+    disLocalWeather();
+    retrieveRecents();
+};
+
+init();
+
 //Event Listeners
 submitBtn.addEventListener('click',function(event) {
     //Prevent page reload when submit is clicked
     event.preventDefault();
-    
-    //unhide div with curWeather
-    curWeather.classList.remove('hidden');
 
     //Determine if user put in city name or ZIP code
     if(isNaN(searchTerm.value)) {
@@ -126,5 +182,17 @@ submitBtn.addEventListener('click',function(event) {
     } else {
         metaRequest = 'https://api.openweathermap.org/data/2.5/weather?zip=' + searchTerm.value + '&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
     }
+
     getMetaData(metaRequest);
 });
+
+searchHistory.addEventListener('click',function(event) {
+    recentChosen = event.target.textContent
+    if(isNaN(recentChosen)) {
+        metaRequest = 'https://api.openweathermap.org/data/2.5/weather?q=' + recentChosen + '&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
+    } else {
+        metaRequest = 'https://api.openweathermap.org/data/2.5/weather?zip=' + recentChosen + '&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
+    }
+
+    getMetaData(metaRequest);
+})

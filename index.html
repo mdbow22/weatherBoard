@@ -17,17 +17,17 @@
             <div class="hero">
                 <div class="left">
                     <h2 id="city"></h2>
-                    <h4>Lat: <span id="lat"></span>, Lon: <span id="lon"></span></h4>
+                    <h4 id="coord"></h4>
                 </div>
                 <div class="right">
                     <img id="curIcon">
                 </div>
             </div>
             <ul>
-                <li>Temp: <span id="curTemp"></span>&#176;F (feels like <span id="curFeels"></span>&#176;F)</li>
-                <li>Wind: <span id="curWind"></span>mph</li>
-                <li>Humidity: <span id="curHum"></span>%</li>
-                <li>UV Index: <span id="curUV"></span></li>
+                <li id="curTemp"></li>
+                <li id="curWind"></li>
+                <li id="curHum"></li>
+                <li id="curUV"></li>
             </ul>
         </section>
         <section class="forecast">
@@ -90,7 +90,8 @@
         </form>
         <div class="recent">
             <h3>Recent Searches</h3>
-            <ul class="searchHistory"></ul>
+            <ul class="searchHistory">
+            </ul>
         </div>
     </nav>
     <script src="./assets/script.js"></script>
