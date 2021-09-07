@@ -45,6 +45,16 @@ let dispCurrentWeather = function(curData) {
     curWind.textContent = 'Wind: ' + curData.wind_speed + 'mph';
     curHum.textContent = 'Humidity: ' + curData.humidity + '%';
     curUV.innerHTML = 'UV Index: <span id="uvIndex">' + curData.uvi + '</span>';
+    
+    //Color UV Index by how high it is
+    let uvIndex = document.getElementById('uvIndex');
+    if(curData.uvi < 3) {
+        uvIndex.style.backgroundColor = 'green';
+    } else if (curData.uvi < 5) {
+        uvIndex.style.backgroundColor = 'yellow';
+    } else {
+        uvIndex.style.backgroundColor = 'red';
+    }
 };
 
 let disForecast = function(forecast) {
