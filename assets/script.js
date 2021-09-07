@@ -8,6 +8,7 @@ let searchHistory = document.querySelector('.searchHistory');
 //Current Weather Selectors
 let curWeather = document.querySelector('.curWeather');
 let city = document.getElementById('city');
+let thisDate = document.getElementById('date');
 let latLong = document.getElementById('coord');
 let curIcon = document.getElementById('curIcon');
 let curTemp = document.getElementById('curTemp');
@@ -28,17 +29,20 @@ let fHum = document.querySelectorAll('.fHum');
 //Global Variables
 
 let metaRequest;
+let currentDate;
 let long;
 let lat;
 let recents = [];
 let recentChosen;
 
 
-
+//Display the current weather conditions
 let dispCurrentWeather = function(curData) {
     //unhide div with curWeather
     curWeather.classList.remove('hidden');
 
+    currentDate = new Date(curData.dt * 1000);
+    thisDate.textContent = (currentDate.getMonth() + 1) + '/' + currentDate.getDate() + '/' + currentDate.getFullYear();
     curIcon.setAttribute('src','http://openweathermap.org/img/wn/' + curData.weather[0].icon + '@2x.png');
     curIcon.setAttribute('alt', curData.weather[0].description);
     curTemp.innerHTML = 'Temp: ' +  curData.temp + '&#176;F (Feels like ' + curData.feels_like + '&#176;F)';
@@ -57,6 +61,7 @@ let dispCurrentWeather = function(curData) {
     }
 };
 
+//Display the 5 day forecast
 let disForecast = function(forecast) {
     for (i = 0; i < cards.length; i++) {
         //unhide boxes
@@ -84,6 +89,8 @@ let disForecast = function(forecast) {
     }
 };
 
+
+//Get current and forecasted weather from OpenWeather API
 let getWeather = function(lat,long) {
     let dataRequest = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + long + '&exclude=minutely,hourly&appid=3e8fd441ffe94cd1d1f73c4d27b77283&units=imperial';
     fetch(dataRequest)
@@ -111,10 +118,12 @@ let getMetaData = function(request) {
         }
     })
     .then(function(data) {
+        currentDate = new Date(data.dt * 1000);
         //store GPS coordinates and name of city, then display them
         long = Math.round(data.coord.lon * 100) / 100;
         lat = Math.round(data.coord.lat * 100) / 100;
         city.textContent = data.name;
+        thisDate.textContent = (currentDate.getMonth() + 1) + '/' + currentDate.getDate() + '/' + currentDate.getFullYear();
         latLong.textContent = 'Lat: ' + lat + ', Lon: ' + long;
 
         //send to next fetch request to pull in weather info
@@ -135,6 +144,7 @@ let disLocalWeather = function() {
         getWeather(coords.latitude, coords.longitude);
     }
 
+    //What happens if user does not allow location tracking
     let error = function(err) {
         console.log(err.message);
     }
@@ -142,7 +152,9 @@ let disLocalWeather = function() {
     navigator.geolocation.getCurrentPosition(success, error, options);
 };
 
+//Display searches saved into local storage
 let displayRecents = function(term) {
+    //display them on page load
     window.onload = function() {
         for (let i = 0; i < recents.length; i++) {
             let pastSearch = document.createElement('li');
@@ -151,6 +163,7 @@ let displayRecents = function(term) {
         }
     };
 
+    //add most recent search to the list
     if(term != null) {
         let lastSearch = document.createElement('li');
         lastSearch.textContent = term;
@@ -158,6 +171,7 @@ let displayRecents = function(term) {
     }
 };
 
+//Retrieve saved searches from local storage
 let retrieveRecents = function go() {
     let storedRecents = localStorage.getItem('searches');
     
